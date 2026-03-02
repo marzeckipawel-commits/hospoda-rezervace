@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 function getPragueOffsetHours(date: Date): number {
   const y = date.getUTCFullYear();
   const m = date.getUTCMonth();

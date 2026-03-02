@@ -32,7 +32,7 @@ npm install
 cp .env.example .env
 # Do .env vyplňte:
 # - DATABASE_URL (Supabase connection string)
-# - ADMIN_PASSWORD (heslo do admin sekce)
+# - ADMIN_PASSWORD (heslo do admin sekce) 
 # - JWT_SECRET (min. 32 znaků, náhodný řetězec)
 # - NEXT_PUBLIC_BASE_URL (např. http://localhost:3000)
 # - RESEND_API_KEY (z Resend dashboardu)
@@ -133,4 +133,3 @@ npm run build
 ```
 
 Build musí projít bez chyb; tím se ověří i TypeScript.
-deploy bump
