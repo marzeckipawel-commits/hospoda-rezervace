@@ -42,7 +42,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <footer className="border-t border-zinc-200 bg-white py-6">
           <div className="mx-auto max-w-4xl px-4 text-center text-sm text-zinc-500 sm:px-6">
-            Hospoda u Vavřince · Rezervační systém · Kontakt a web dle vašeho údaje
+            Hospoda u Vavřince · Rezervační systém
           </div>
         </footer>
       </body>

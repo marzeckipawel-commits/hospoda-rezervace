@@ -540,7 +540,7 @@ export default function RezervacePage() {
           >
             hospodauvavrince.cz
           </a>{' '}
-          · tel.: +420 000 000 000
+          · tel.: +420 727 867 763
         </div>
       </Container>
     </div>
