@@ -373,7 +373,7 @@ export default function RezervacePage() {
               <section className="space-y-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                    2. Předobjednávka
+                    2. Předobjednávka (pokud chcete)
                   </h3>
                   {form.type === 'TAKEAWAY' && (
                     <Notice className="border-amber-300 bg-amber-50 text-amber-900">
