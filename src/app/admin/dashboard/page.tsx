@@ -61,16 +61,28 @@ export default function AdminDashboardPage() {
     <Container className="max-w-4xl">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-xl font-bold text-zinc-900 sm:text-2xl">Admin dashboard</h1>
-        <nav className="flex gap-4">
+        <nav className="flex flex-wrap gap-3 text-sm font-medium text-zinc-600">
+          <Link
+            href="/admin/reservations"
+            className="hover:text-zinc-900"
+          >
+            Rezervace
+          </Link>
+          <Link
+            href="/admin/reservations/timeline"
+            className="hover:text-zinc-900"
+          >
+            Timeline
+          </Link>
           <Link
             href="/admin/settings/event"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+            className="hover:text-zinc-900"
           >
             Nastavení akce
           </Link>
           <Link
             href="/admin/settings/menu"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+            className="hover:text-zinc-900"
           >
             Menu
           </Link>
