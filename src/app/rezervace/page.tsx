@@ -533,6 +533,26 @@ export default function RezervacePage() {
               {/* Souhrn a odeslání */}
               <section className="space-y-3 pb-2">
                 {submitError && <Notice variant="error">{submitError}</Notice>}
+                <div className="mt-4 max-w-xl text-left text-sm text-zinc-600">
+                  <label className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      required
+                      className="mt-1 h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-2 focus:ring-zinc-400"
+                    />
+                    <span>
+                      Souhlasím se zpracováním osobních údajů za účelem vyřízení rezervace a
+                      potvrzuji, že jsem se seznámil(a) se{' '}
+                      <Link
+                        href="/ochrana-osobnich-udaju"
+                        className="underline hover:text-zinc-900"
+                      >
+                        Zásadami ochrany osobních údajů
+                      </Link>
+                      .
+                    </span>
+                  </label>
+                </div>
                 <div className="sticky bottom-4 z-10">
                   <div className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-sm text-zinc-700">
@@ -556,17 +576,27 @@ export default function RezervacePage() {
           </CardBody>
           </Card>
 
-          <div className="mt-8 text-center text-xs text-zinc-300">
-            Těšíme se na vás ·{' '}
-            <a
-              href="https://hospodauvavrince.cz"
-              target="_blank"
-              rel="noreferrer"
-              className="underline hover:text-zinc-100"
-            >
-              hospodauvavrince.cz
-            </a>{' '}
-            · tel.: +420 727 867 763
+          <div className="mt-8 space-y-1 text-center text-xs text-zinc-300">
+            <div>
+              Těšíme se na vás ·{' '}
+              <a
+                href="https://hospodauvavrince.cz"
+                target="_blank"
+                rel="noreferrer"
+                className="underline hover:text-zinc-100"
+              >
+                hospodauvavrince.cz
+              </a>{' '}
+              · tel.: +420 727 867 763
+            </div>
+            <div>
+              <Link
+                href="/ochrana-osobnich-udaju"
+                className="underline hover:text-zinc-100"
+              >
+                Zásady ochrany osobních údajů
+              </Link>
+            </div>
           </div>
         </Container>
       </div>
