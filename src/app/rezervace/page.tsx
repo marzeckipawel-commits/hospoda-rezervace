@@ -383,47 +383,61 @@ export default function RezervacePage() {
                   )}
                 </div>
                 <div className="rounded-2xl border border-zinc-200 divide-y divide-zinc-100 overflow-hidden">
-                  {menu.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-start justify-between gap-4 px-4 py-3 sm:px-5"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="font-semibold text-zinc-900 leading-tight">
-                          {sanitizeText(item.name)}
-                        </div>
-                        {item.description ? (
-                          <div className="mt-1 text-sm text-zinc-600 leading-snug">
-                            {sanitizeText(item.description)}
+                  {menu.map((item) => {
+                    const qty = form.items[item.id] ?? 0;
+                    const handleChange = (next: number) => {
+                      const safe = Math.max(0, next || 0);
+                      setForm((f) => ({
+                        ...f,
+                        items: {
+                          ...f.items,
+                          [item.id]: safe,
+                        },
+                      }));
+                    };
+                    return (
+                      <div
+                        key={item.id}
+                        className="flex items-start justify-between gap-4 px-4 py-3 sm:px-5"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div className="font-semibold text-zinc-900 leading-tight">
+                            {sanitizeText(item.name)}
                           </div>
-                        ) : null}
-                        <div className="mt-2 text-sm font-medium text-zinc-800">
-                          {item.priceCzk} Kč
+                          {item.description ? (
+                            <div className="mt-1 text-sm text-zinc-600 leading-snug">
+                              {sanitizeText(item.description)}
+                            </div>
+                          ) : null}
+                          <div className="mt-2 text-sm font-medium text-zinc-800">
+                            {item.priceCzk} Kč
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleChange(qty - 1)}
+                            className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-base font-semibold text-zinc-800 hover:bg-zinc-200 active:bg-zinc-300 cursor-pointer select-none"
+                            aria-label="Snížit počet"
+                          >
+                            −
+                          </button>
+                          <div className="min-w-[40px] text-center text-sm font-medium text-zinc-900">
+                            {qty}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleChange(qty + 1)}
+                            className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-base font-semibold text-zinc-800 hover:bg-zinc-200 active:bg-zinc-300 cursor-pointer select-none"
+                            aria-label="Zvýšit počet"
+                          >
+                            +
+                          </button>
                         </div>
                       </div>
-
-                      <input
-                        type="number"
-                        min={0}
-                        inputMode="numeric"
-                        value={form.items[item.id] ?? 0}
-                        onChange={(e) =>
-                          setForm((f) => ({
-                            ...f,
-                            items: {
-                              ...f.items,
-                              [item.id]:
-                                Math.max(
-                                  0,
-                                  parseInt(e.target.value, 10) || 0
-                                ),
-                            },
-                          }))
-                        }
-                        className="h-10 w-16 shrink-0 rounded-xl border border-zinc-200 bg-white px-2 text-right text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                      />
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 {menu.length === 0 && (
                   <p className="text-sm text-zinc-500">
