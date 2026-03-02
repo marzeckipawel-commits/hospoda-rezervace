@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Event {
+  id                     String      @id @default(cuid())
+  name                   String
+  date                   DateTime    @db.Date
+  startTimeMinutes       Int
+  endTimeMinutes         Int
+  slotMinutes            Int
+  maxPeopleOnPremises    Int
+  avgStayMinutes         Int
+  takeawayPeopleEquivalent Int       @default(0)
+  burgerTrackingEnabled  Boolean     @default(false)
+  menuItems              MenuItem[]
+  reservations           Reservation[]
+}
+
+model MenuItem {
+  id                String   @id @default(cuid())
+  eventId           String
+  event             Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name              String
+  description       String?
+  category          String
+  priceCzk          Int
+  countsTowardBurger Boolean @default(false)
+  isAvailable       Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  reservationItems  ReservationItem[]
+
+  @@index([eventId])
+}
+
+model Reservation {
+  id           String   @id @default(cuid())
+  eventId      String
+  event        Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  status       ReservationStatus @default(PENDING)
+  type         ReservationType
+  slotStartUtc DateTime
+  slotEndUtc   DateTime
+  firstName    String
+  lastName     String
+  phone        String
+  email        String
+  partySize    Int?
+  note         String?
+  hasPreorder  Boolean  @default(false)
+  publicCode   String   @unique
+  manageToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  items        ReservationItem[]
+
+  @@index([eventId])
+  @@index([manageToken])
+  @@index([slotStartUtc, slotEndUtc])
+}
+
+model ReservationItem {
+  id             String     @id @default(cuid())
+  reservationId  String
+  reservation    Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  menuItemId     String
+  menuItem       MenuItem   @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  quantity       Int
+
+  @@unique([reservationId, menuItemId])
+  @@index([reservationId])
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum ReservationType {
+  DINE_IN
+  TAKEAWAY
+}
