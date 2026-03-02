@@ -133,3 +133,4 @@ npm run build
 ```
 
 Build musí projít bez chyb; tím se ověří i TypeScript.
+deploy bump
