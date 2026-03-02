@@ -2,7 +2,10 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { checkCapacity } from '@/lib/capacity';
-import { sendReservationConfirmation } from '@/lib/email';
+import {
+  sendReservationConfirmation,
+  sendAdminReservationNotification,
+} from '@/lib/email';
 
 const reservationItemSchema = z.object({
   menuItemId: z.string(),
@@ -213,10 +216,60 @@ export async function PATCH(
     );
   }
 
+  const adminNotifyRaw =
+    process.env.ADMIN_NOTIFY_EMAILS ?? 'rezervace@hospodauvavrince.cz';
+  const adminEmails = adminNotifyRaw
+    .split(',')
+    .map((e) => e.trim())
+    .filter(Boolean);
+  console.log('Admin notify emails:', adminEmails);
+
+  let adminWarning: string | undefined;
+  let adminEmailError: string | undefined;
+
+  if (adminEmails.length > 0) {
+    const adminResult = await sendAdminReservationNotification(
+      adminEmails,
+      {
+        eventName: event.name,
+        eventDate: eventDateStr,
+        slotStartPrague: updated.slotStartUtc,
+        type: updated.type,
+        partySize: updated.partySize,
+        firstName: updated.firstName,
+        lastName: updated.lastName,
+        phone: updated.phone,
+        email: updated.email,
+        note: updated.note,
+        items: updated.items.map((i) => ({
+          name: i.menuItem.name,
+          quantity: i.quantity,
+          priceCzk: i.menuItem.priceCzk,
+        })),
+        totalCzk,
+        publicCode: updated.publicCode,
+        manageToken: updated.manageToken,
+      },
+      'updated'
+    );
+    if (adminResult.error) {
+      console.error(
+        'Admin notification failed for updated reservation:',
+        adminResult.error.message
+      );
+      adminWarning = 'admin_email_failed';
+      adminEmailError = adminResult.error.message;
+    }
+  }
+
   return NextResponse.json({
     id: updated.id,
     publicCode: updated.publicCode,
     status: updated.status,
+    ...(adminWarning && {
+      warning: adminWarning,
+      adminEmailError,
+    }),
   });
 }
 
@@ -227,13 +280,83 @@ export async function DELETE(
   const { token } = await params;
   const reservation = await prisma.reservation.findFirst({
     where: { manageToken: token },
+    include: {
+      event: true,
+      items: {
+        include: {
+          menuItem: true,
+        },
+      },
+    },
   });
   if (!reservation) {
     return NextResponse.json({ error: 'not_found' }, { status: 404 });
   }
-  await prisma.reservation.update({
+  const updated = await prisma.reservation.update({
     where: { id: reservation.id },
     data: { status: 'CANCELLED' },
   });
-  return NextResponse.json({ ok: true });
+
+  const totalCzk = reservation.items.reduce(
+    (s, i) => s + i.quantity * i.menuItem.priceCzk,
+    0
+  );
+  const eventDateStr = reservation.event.date.toLocaleDateString('cs-CZ', {
+    timeZone: 'Europe/Prague',
+  });
+
+  const adminNotifyRaw =
+    process.env.ADMIN_NOTIFY_EMAILS ?? 'rezervace@hospodauvavrince.cz';
+  const adminEmails = adminNotifyRaw
+    .split(',')
+    .map((e) => e.trim())
+    .filter(Boolean);
+  console.log('Admin notify emails:', adminEmails);
+
+  let adminWarning: string | undefined;
+  let adminEmailError: string | undefined;
+
+  if (adminEmails.length > 0) {
+    const adminResult = await sendAdminReservationNotification(
+      adminEmails,
+      {
+        eventName: reservation.event.name,
+        eventDate: eventDateStr,
+        slotStartPrague: reservation.slotStartUtc,
+        type: reservation.type,
+        partySize: reservation.partySize,
+        firstName: reservation.firstName,
+        lastName: reservation.lastName,
+        phone: reservation.phone,
+        email: reservation.email,
+        note: reservation.note,
+        items: reservation.items.map((i) => ({
+          name: i.menuItem.name,
+          quantity: i.quantity,
+          priceCzk: i.menuItem.priceCzk,
+        })),
+        totalCzk,
+        publicCode: reservation.publicCode,
+        manageToken: reservation.manageToken,
+      },
+      'cancelled'
+    );
+    if (adminResult.error) {
+      console.error(
+        'Admin notification failed for cancelled reservation:',
+        adminResult.error.message
+      );
+      adminWarning = 'admin_email_failed';
+      adminEmailError = adminResult.error.message;
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    status: updated.status,
+    ...(adminWarning && {
+      warning: adminWarning,
+      adminEmailError,
+    }),
+  });
 }

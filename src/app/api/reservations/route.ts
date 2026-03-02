@@ -3,7 +3,10 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { checkCapacity } from '@/lib/capacity';
 import { generatePublicCode, generateManageToken } from '@/lib/codes';
-import { sendReservationConfirmation } from '@/lib/email';
+import {
+  sendReservationConfirmation,
+  sendAdminReservationNotification,
+} from '@/lib/email';
 
 const reservationItemSchema = z.object({
   menuItemId: z.string(),
@@ -158,9 +161,59 @@ export async function POST(req: Request) {
     );
   }
 
+  const adminNotifyRaw =
+    process.env.ADMIN_NOTIFY_EMAILS ?? 'rezervace@hospodauvavrince.cz';
+  const adminEmails = adminNotifyRaw
+    .split(',')
+    .map((e) => e.trim())
+    .filter(Boolean);
+  console.log('Admin notify emails:', adminEmails);
+
+  let adminWarning: string | undefined;
+  let adminEmailError: string | undefined;
+
+  if (adminEmails.length > 0) {
+    const adminResult = await sendAdminReservationNotification(
+      adminEmails,
+      {
+        eventName: event.name,
+        eventDate: eventDateStr,
+        slotStartPrague: slotStartUtc,
+        type: reservation.type,
+        partySize: reservation.partySize,
+        firstName: reservation.firstName,
+        lastName: reservation.lastName,
+        phone: reservation.phone,
+        email: reservation.email,
+        note: reservation.note,
+        items: reservation.items.map((i) => ({
+          name: i.menuItem.name,
+          quantity: i.quantity,
+          priceCzk: i.menuItem.priceCzk,
+        })),
+        totalCzk,
+        publicCode: reservation.publicCode,
+        manageToken: reservation.manageToken,
+      },
+      'created'
+    );
+    if (adminResult.error) {
+      console.error(
+        'Admin notification failed for created reservation:',
+        adminResult.error.message
+      );
+      adminWarning = 'admin_email_failed';
+      adminEmailError = adminResult.error.message;
+    }
+  }
+
   return NextResponse.json({
     id: reservation.id,
     publicCode: reservation.publicCode,
     manageToken: reservation.manageToken,
+    ...(adminWarning && {
+      warning: adminWarning,
+      adminEmailError,
+    }),
   });
 }
