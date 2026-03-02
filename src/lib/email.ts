@@ -68,12 +68,9 @@ Těšíme se na vás!
 
   let logoUrl: string | null = null;
   if (!process.env.NEXT_PUBLIC_BASE_URL) {
-    console.warn('EMAIL WARNING: NEXT_PUBLIC_BASE_URL is not set, logo URL may be invalid.');
-  } else {
-    logoUrl =
-      process.env.BRAND_LOGO_URL ||
-      `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`;
+    console.warn('EMAIL WARNING: NEXT_PUBLIC_BASE_URL is not set, using fallback baseUrl:', baseUrl);
   }
+  logoUrl = process.env.BRAND_LOGO_URL || `${baseUrl}/logo.png`;
 
   const htmlBody = `
 <!doctype html>
@@ -93,7 +90,7 @@ Těšíme se na vás!
                 ${
                   logoUrl
                     ? `<div style="text-align:center;margin-bottom:16px;">
-                        <img src="${logoUrl}" alt="Hospoda u Vavřince" style="max-height:60px;width:auto;display:inline-block;" />
+                        <img src="${logoUrl}" alt="Hospoda u Vavřince" style="max-width:160px;height:auto;display:block;margin:0 auto;" />
                       </div>`
                     : `<h1 style="margin:0 0 16px 0;font-size:24px;font-weight:700;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;">Hospoda u Vavřince</h1>`
                 }
