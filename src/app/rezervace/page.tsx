@@ -325,7 +325,7 @@ export default function RezervacePage() {
               {/* Typ & čas */}
               <section className="space-y-4">
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                  1. Vyberte čas
+                  1. Vyberte čas a rezervujte si svůj stůl
                 </h3>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
