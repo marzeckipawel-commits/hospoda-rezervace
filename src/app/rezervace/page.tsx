@@ -148,10 +148,13 @@ export default function RezervacePage() {
 
   if (loading) {
     return (
-      <div className="bg-zinc-50">
-        <Container className="py-16">
-          <p className="text-center text-zinc-500">Načítání…</p>
-        </Container>
+      <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
+        <div className="pointer-events-none absolute inset-0 bg-black/55" />
+        <div className="relative z-10">
+          <Container className="py-16">
+            <p className="text-center text-zinc-300">Načítání…</p>
+          </Container>
+        </div>
       </div>
     );
   }
@@ -160,8 +163,10 @@ export default function RezervacePage() {
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
     const manageUrl = `${baseUrl}/rezervace/sprava/${success.manageToken}`;
     return (
-      <div className="bg-zinc-50">
-        <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
+      <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
+        <div className="pointer-events-none absolute inset-0 bg-black/55" />
+        <div className="relative z-10">
+          <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
           <Container className="max-w-3xl py-10 sm:py-12 text-center">
             <a
               href="https://hospodauvavrince.cz"
@@ -186,9 +191,9 @@ export default function RezervacePage() {
               18. 4. 2026 • 13:00–21:00 • Sloty po 15 min
             </p>
           </Container>
-        </header>
-        <Container className="max-w-3xl -mt-6 pb-12 sm:-mt-10">
-          <Card className="mx-auto max-w-xl rounded-3xl border-zinc-200 bg-white/95 shadow-lg">
+          </header>
+          <Container className="max-w-3xl -mt-6 pb-12 sm:-mt-10">
+            <Card className="mx-auto max-w-xl rounded-3xl border-zinc-200 bg-white/95 shadow-lg">
             <CardHeader>
               <h2 className="text-xl font-semibold text-zinc-900 sm:text-2xl">
                 Rezervace odeslána
@@ -212,30 +217,34 @@ export default function RezervacePage() {
                 {manageUrl}
               </p>
             </CardBody>
-          </Card>
-        </Container>
+            </Card>
+          </Container>
+        </div>
       </div>
     );
   }
 
   if (!event) {
     return (
-      <div className="bg-zinc-50">
-        <Container className="py-16">
-          <Card className="max-w-xl mx-auto text-center rounded-3xl shadow-lg">
-            <CardBody>
-              <p className="text-zinc-600">
-                Aktuálně není k dispozici žádná akce.
-              </p>
-              <Link
-                href="/"
-                className="mt-4 inline-block text-zinc-900 underline hover:text-zinc-700"
-              >
-                Zpět na úvod
-              </Link>
-            </CardBody>
-          </Card>
-        </Container>
+      <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
+        <div className="pointer-events-none absolute inset-0 bg-black/55" />
+        <div className="relative z-10">
+          <Container className="py-16">
+            <Card className="max-w-xl mx-auto text-center rounded-3xl bg-white/95 shadow-lg">
+              <CardBody>
+                <p className="text-zinc-700">
+                  Aktuálně není k dispozici žádná akce.
+                </p>
+                <Link
+                  href="/"
+                  className="mt-4 inline-block text-zinc-900 underline hover:text-zinc-700"
+                >
+                  Zpět na úvod
+                </Link>
+              </CardBody>
+            </Card>
+          </Container>
+        </div>
       </div>
     );
   }
@@ -260,38 +269,40 @@ export default function RezervacePage() {
   const slotLabel = `Sloty po ${event.slotMinutes} min`;
 
   return (
-    <div className="bg-zinc-50">
-      <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
-        <Container className="max-w-3xl py-10 sm:py-12">
-          <div className="flex flex-col items-center text-center">
-            <a
-              href="https://hospodauvavrince.cz"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex flex-col items-center justify-center gap-2 mb-6"
-            >
-              <img
-                src="/logo.png"
-                alt="Hospoda u Vavřince"
-                className="mx-auto h-24 w-auto sm:h-28 md:h-32 lg:h-36 drop-shadow-md rounded-md bg-white/5 p-1"
-                style={{ objectFit: 'contain' }}
-              />
-              <span className="text-xs font-medium uppercase tracking-wide text-amber-400">
-                Rezervace online
-              </span>
-            </a>
-            <h1 className="mt-4 text-2xl font-semibold sm:text-3xl">
-              Rezervace na akci
-            </h1>
-            <p className="mt-2 text-sm text-zinc-200">
-              {formattedDate} • {openLabel} • {slotLabel}
-            </p>
-          </div>
-        </Container>
-      </header>
+    <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
+      <div className="pointer-events-none absolute inset-0 bg-black/55" />
+      <div className="relative z-10">
+        <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
+          <Container className="max-w-3xl py-10 sm:py-12">
+            <div className="flex flex-col items-center text-center">
+              <a
+                href="https://hospodauvavrince.cz"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex flex-col items-center justify-center gap-2 mb-6"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Hospoda u Vavřince"
+                  className="mx-auto h-24 w-auto sm:h-28 md:h-32 lg:h-36 drop-shadow-md rounded-md bg-white/5 p-1"
+                  style={{ objectFit: 'contain' }}
+                />
+                <span className="text-xs font-medium uppercase tracking-wide text-amber-400">
+                  Rezervace online
+                </span>
+              </a>
+              <h1 className="mt-4 text-2xl font-semibold sm:text-3xl">
+                Rezervace na akci
+              </h1>
+              <p className="mt-2 text-sm text-zinc-200">
+                {formattedDate} • {openLabel} • {slotLabel}
+              </p>
+            </div>
+          </Container>
+        </header>
 
-      <Container className="max-w-3xl -mt-6 pb-12 sm:-mt-10">
-        <Card className="rounded-3xl border-zinc-200 bg-white/95 shadow-xl">
+        <Container className="max-w-3xl -mt-6 pb-12 sm:-mt-10">
+          <Card className="rounded-3xl border-zinc-200 bg-white/95 shadow-xl">
           <CardHeader>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -542,21 +553,22 @@ export default function RezervacePage() {
               </section>
             </form>
           </CardBody>
-        </Card>
+          </Card>
 
-        <div className="mt-8 text-center text-xs text-zinc-500">
-          Těšíme se na vás ·{' '}
-          <a
-            href="https://hospodauvavrince.cz"
-            target="_blank"
-            rel="noreferrer"
-            className="underline hover:text-zinc-700"
-          >
-            hospodauvavrince.cz
-          </a>{' '}
-          · tel.: +420 727 867 763
-        </div>
-      </Container>
+          <div className="mt-8 text-center text-xs text-zinc-300">
+            Těšíme se na vás ·{' '}
+            <a
+              href="https://hospodauvavrince.cz"
+              target="_blank"
+              rel="noreferrer"
+              className="underline hover:text-zinc-100"
+            >
+              hospodauvavrince.cz
+            </a>{' '}
+            · tel.: +420 727 867 763
+          </div>
+        </Container>
+      </div>
     </div>
   );
 }
