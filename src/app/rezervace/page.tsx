@@ -167,30 +167,30 @@ export default function RezervacePage() {
         <div className="pointer-events-none absolute inset-0 bg-black/55" />
         <div className="relative z-10">
           <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
-          <Container className="max-w-3xl py-10 sm:py-12 text-center">
-            <a
-              href="https://hospodauvavrince.cz"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex flex-col items-center justify-center gap-2 mb-6"
-            >
-              <img
-                src="/logo.png"
-                alt="Hospoda u Vavřince"
-                className="mx-auto h-24 w-auto sm:h-28 md:h-32 lg:h-36 drop-shadow-md rounded-md bg-white/5 p-1"
-                style={{ objectFit: 'contain' }}
-              />
-              <span className="text-sm font-medium uppercase tracking-wide text-amber-400">
-                Rezervace online
-              </span>
-            </a>
-            <h1 className="mt-4 text-2xl font-semibold sm:text-3xl">
-              Hospoda u Vavřince
-            </h1>
-            <p className="mt-2 text-sm text-zinc-200">
-              18. 4. 2026 • 13:00–21:00 • Sloty po 15 min
-            </p>
-          </Container>
+            <Container className="max-w-3xl py-10 sm:py-12 text-center">
+              <a
+                href="https://hospodauvavrince.cz"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex flex-col items-center justify-center gap-2 mb-6"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Hospoda u Vavřince"
+                  className="mx-auto h-24 w-auto sm:h-28 md:h-32 lg:h-36 drop-shadow-md rounded-md bg-white/5 p-1"
+                  style={{ objectFit: 'contain' }}
+                />
+                <span className="text-sm font-medium uppercase tracking-wide text-amber-400">
+                  Rezervace online
+                </span>
+              </a>
+              <h1 className="mt-4 text-2xl font-semibold sm:text-3xl">
+                Hospoda u Vavřince
+              </h1>
+              <p className="mt-2 text-sm text-zinc-200">
+                18. 4. 2026 • 13:00–21:00
+              </p>
+            </Container>
           </header>
           <Container className="max-w-3xl -mt-6 pb-12 sm:-mt-10">
             <Card className="mx-auto max-w-xl rounded-3xl border-zinc-200 bg-white/95 shadow-lg">
@@ -266,7 +266,6 @@ export default function RezervacePage() {
   const openLabel = `${formatMinutes(event.startTimeMinutes)}–${formatMinutes(
     event.endTimeMinutes
   )}`;
-  const slotLabel = `Sloty po ${event.slotMinutes} min`;
 
   return (
     <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
@@ -296,7 +295,7 @@ export default function RezervacePage() {
                   Rezervace na akci
                 </h1>
                 <p className="mt-2 text-sm text-zinc-700">
-                  {formattedDate} • {openLabel} • {slotLabel}
+                  {formattedDate} • {openLabel}
                 </p>
               </div>
             </div>
@@ -317,7 +316,7 @@ export default function RezervacePage() {
                 </p>
               </div>
               <div className="rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800">
-                🕒 {slotLabel}
+                🕒 Vyberte čas rezervace
               </div>
             </div>
           </CardHeader>
