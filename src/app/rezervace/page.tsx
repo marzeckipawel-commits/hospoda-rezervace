@@ -272,31 +272,33 @@ export default function RezervacePage() {
     <div className="relative min-h-screen bg-[url('/background.png')] bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed">
       <div className="pointer-events-none absolute inset-0 bg-black/55" />
       <div className="relative z-10">
-        <header className="bg-gradient-to-b from-zinc-900 to-zinc-800 text-white">
-          <Container className="max-w-3xl py-10 sm:py-12">
-            <div className="flex flex-col items-center text-center">
-              <a
-                href="https://hospodauvavrince.cz"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex flex-col items-center justify-center gap-2 mb-6"
-              >
-                <img
-                  src="/logo.png"
-                  alt="Hospoda u Vavřince"
-                  className="mx-auto h-24 w-auto sm:h-28 md:h-32 lg:h-36 drop-shadow-md rounded-md bg-white/5 p-1"
-                  style={{ objectFit: 'contain' }}
-                />
-                <span className="text-xs font-medium uppercase tracking-wide text-amber-400">
-                  Rezervace online
-                </span>
-              </a>
-              <h1 className="mt-4 text-2xl font-semibold sm:text-3xl">
-                Rezervace na akci
-              </h1>
-              <p className="mt-2 text-sm text-zinc-200">
-                {formattedDate} • {openLabel} • {slotLabel}
-              </p>
+        <header>
+          <Container className="max-w-3xl pt-10 sm:pt-12">
+            <div className="mx-auto max-w-2xl rounded-2xl border border-white/40 bg-white/60 px-6 py-6 shadow-lg backdrop-blur-md">
+              <div className="flex flex-col items-center text-center">
+                <a
+                  href="https://hospodauvavrince.cz"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mb-4 inline-flex flex-col items-center justify-center gap-2"
+                >
+                  <img
+                    src="/logo.png"
+                    alt="Hospoda u Vavřince"
+                    className="mx-auto h-20 w-auto sm:h-24 md:h-28 lg:h-32 drop-shadow-md rounded-md bg-white/70 p-1"
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <span className="text-xs font-medium uppercase tracking-wide text-amber-600">
+                    Rezervace online
+                  </span>
+                </a>
+                <h1 className="mt-1 text-2xl font-semibold text-zinc-900 sm:text-3xl">
+                  Rezervace na akci
+                </h1>
+                <p className="mt-2 text-sm text-zinc-700">
+                  {formattedDate} • {openLabel} • {slotLabel}
+                </p>
+              </div>
             </div>
           </Container>
         </header>
